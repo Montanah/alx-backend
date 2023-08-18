@@ -37,7 +37,7 @@ class Server:
         (i.e. the correct list of rows)."""
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
-        self.dataset()
+        dataset = self.dataset()
         start, end = index_range(page, page_size)
         if start_index >= len(dataset):
             return []
