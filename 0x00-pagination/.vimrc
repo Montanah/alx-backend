@@ -52,9 +52,6 @@ set listchars=tab:→\ ,trail:·
 " Set the color scheme (replace 'desert' with your preferred scheme)
 colorscheme desert
 
-" Enable line numbers
-set number
-
 " Enable syntax highlighting
 syntax enable
 
