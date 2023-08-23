@@ -50,4 +50,3 @@ class LFUCache(BaseCaching):
             self.update_frequency_list(key)
             return self.cache_data[key]
         return None
-
