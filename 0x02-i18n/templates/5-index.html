@@ -11,7 +11,7 @@
 	{% if g.user %}
     <p>{{ _('logged_in_as', username=g.user.name) }}</p>
     {% else %}
-    <p>{{ _('not_logged_in') }}</p>
+    <p>You are {{ _('not_logged_in') }}</p>
     {% endif %}
 </body>
 </html>
