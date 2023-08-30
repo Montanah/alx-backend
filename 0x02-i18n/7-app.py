@@ -20,20 +20,16 @@ class Config(object):
 app.config.from_object(Config)
 
 
-@babel.localeselector
-def get_locale():
-    """ GET locale from request URL """
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
 
 
 def get_user(login_as):
     """ Mock loggin in """
-    users = {
-        1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
-        2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
-        3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
-        4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
-    }
     if login_as in users:
         return users.get(login_as)
     return None
@@ -47,6 +43,19 @@ def before_request():
         user = get_user(int(login_as))
         if user:
             g.user = user
+
+
+@babel.localeselector
+def get_locale():
+    """ function to use a user’s preferred local if it is supported. """
+    locale = request.args.get('locale')
+    if locale and locale in app.config['LANGUAGES']:
+        return locale
+    if g.user:
+        locale = g.user.get('locale')
+        if locale and locale in app.config['LANGUAGES']:
+            return locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
